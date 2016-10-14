@@ -1,0 +1,15 @@
+code_generation: false
+formatter.name: pretty
+suites:
+  MediaManager:
+    namespace: MediaManager
+    psr4_prefix: MediaManager
+    spec_prefix: spec
+    src_path: %paths.config%/lib
+    spec_path: %paths.config%
+extensions:
+  PhpSpecCodeCoverage\CodeCoverageExtension:
+    format:
+      - html
+    output:
+      html: coverage
