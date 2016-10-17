@@ -13,7 +13,7 @@ use MediaManager\Model\ValueObject\LibraryIdInterface;
 /**
  * LibraryService responsible for library operations.
  *
- * @package MediaManager\Domain\Application\Container
+ * @package MediaManager\Service
  */
 class LibraryService {
 
