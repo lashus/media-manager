@@ -1,0 +1,20 @@
+<div class="col-xs-12 col-md-9" role="application">
+    <legend>{{ i18n.library_files }}</legend>
+
+    <ul class="files-grid" id="library-files-list" role="grid">
+        {{# files}}
+            <li>
+                <div class="file-element link" role="definition" data-id="{{ id }}" data-name="{{ name }}">
+                    <div class="icon-holder">
+                        <span class="icon icon-{{ type }}"></span>
+                    </div>
+                    <h4>{{ name }}</h4>
+                    <p class="additional">
+                        <small>{{ i18n.file.size }}: {{ sizeWithUnit }}</small> <br />
+                        <small>{{ i18n.file.created }}: {{ date }}</small>
+                    </p>
+                </div>
+            </li>
+        {{/files}}
+    </ul>
+</div>
