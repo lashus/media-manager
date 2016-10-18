@@ -1,6 +1,34 @@
 {
-  "modal_title": "Media Manager",
+  "modal":  {
+    "title": "Media Manager"
+  },
   "close": "Close",
   "save": "Save",
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+
+  "library": {
+    "name": "Library name",
+    "size": "Size",
+    "created": "Created on: ",
+    "count": "File count: ",
+
+    "list": {
+      "title": "Libraries list"
+    },
+    "files": {
+      "title": "Files in library"
+    }
+  },
+  "file": {
+    "title": "File",
+    "size": "Size",
+    "created": "Created on: ",
+    "no_preview": "Preview not available"
+  },
+  "filters": {
+    "title": "Filters: "
+  },
+  "menu": {
+    "title": "Menu"
+  }
 }
