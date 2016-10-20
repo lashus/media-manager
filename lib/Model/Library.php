@@ -6,12 +6,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Gaufrette\Filesystem;
 use MediaManager\Model\ValueObject\LibraryIdInterface;
 
-class Library {
+class Library implements LibraryInterface {
 
     /**
      * @var LibraryIdInterface
      */
     protected $id;
+    protected $created;
     protected $name;
     protected $filesystem;
     protected $files;
@@ -25,6 +26,7 @@ class Library {
     public function __construct(LibraryIdInterface $id, Filesystem $filesystem, $name) {
 
         $this->id = $id;
+        $this->created = time();
         $this->name = $name;
         $this->filesystem = $filesystem;
         $this->files = new ArrayCollection();
@@ -36,6 +38,14 @@ class Library {
      */
     public function id() {
         return $this->id;
+    }
+
+    /**
+     * Returns creation date
+     * @return int
+     */
+    public function created() {
+        return $this->created;
     }
 
     /**

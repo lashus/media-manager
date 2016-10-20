@@ -1,0 +1,18 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                   https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
+
+    <entity name="MediaManager\Model\File"
+            table="files">
+        <id name="id" type="file_uuid" column="id" />
+        <field name="name" type="string" length="255" />
+        <field name="filename" type="string" length="255" />
+        <field name="mimetype" type="string" length="100" />
+        <field name="size" type="integer" />
+        <field name="created" type="integer" />
+
+        <many-to-one field="library" target-entity="MediaManager\Model\Library" inversed-by="files" />
+    </entity>
+
+</doctrine-mapping>

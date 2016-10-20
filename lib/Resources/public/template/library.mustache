@@ -1,4 +1,4 @@
-<div class="col-xs-12 col-md-9" role="application">
+<div class="col-xs-12" role="application">
     <legend>{{ i18n.library.files.title }}</legend>
 
     <ul class="files-grid" id="library-files-list" role="grid">
@@ -16,5 +16,13 @@
                 </div>
             </li>
         {{/files}}
+        <li>
+            <div class="add-file link" role="definition">
+                <div class="icon-holder">
+                    <span class="icon icon-plus"></span>
+                </div>
+                <h4>{{ i18n.file.add }}</h4>
+            </div>
+        </li>
     </ul>
 </div>

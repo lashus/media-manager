@@ -63,7 +63,7 @@ class LibraryId implements LibraryIdInterface
      */
     public function __toString()
     {
-        return $this->toString();
+        return (string)$this->toString();
     }
 
     /**

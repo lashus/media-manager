@@ -1,0 +1,62 @@
+.link {
+  cursor: pointer;
+}
+
+.libraries-grid, .files-grid {
+  margin: 0;
+  padding: 0;
+
+  > li {
+    display: inline-block;
+    width: 25%;
+    border: 1px solid #cacaca;
+    padding: 10px;
+    margin-bottom: 15px;
+    text-align: center;
+    vertical-align: top;
+
+    .icon {
+      text-align: center;
+      font-size: 48px;
+      display: inline-block;
+      margin: auto;
+    }
+  }
+}
+
+.icon {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale
+}
+
+.icon-plus:before{
+  content:"\f055";
+}
+
+.icon-library:before{
+  content:"\f02d";
+}
+
+.icon-image:before{
+  content:"\f1c5";
+}
+
+.icon-pdf:before{
+  content:"\f1c1";
+}
+
+.icon-audio:before{
+  content:"\f1c7";
+}
+
+.icon-video:before{
+  content:"\f1c8";
+}
+
+.icon-file:before{
+  content:"\f016";
+}

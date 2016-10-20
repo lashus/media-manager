@@ -3,6 +3,7 @@
 namespace MediaManager\Model;
 
 use MediaManager\Model\Library;
+use MediaManager\Model\ValueObject\FileUuid;
 use MediaManager\Model\ValueObject\LibraryId;
 
 /**
@@ -22,10 +23,10 @@ interface LibraryRepositoryInterface {
     /**
      * Store a library in persistence store
      *
-     * @param Library $library
+     * @param LibraryInterface $library
      * @return mixed
      */
-    public function store(Library $library);
+    public function store(LibraryInterface $library);
 
     /**
      * Get all libraries
@@ -37,10 +38,10 @@ interface LibraryRepositoryInterface {
     /**
      * Get all files belonging to library
      *
-     * @param Library $library
+     * @param LibraryInterface $library
      * @return mixed
      */
-    public function getLibraryFiles(Library $library);
+    public function getLibraryFiles(LibraryInterface $library);
 
     /**
      * Get a library by given name
@@ -49,5 +50,29 @@ interface LibraryRepositoryInterface {
      * @return mixed
      */
     public function findLibraryByName($name);
+
+    /**
+     * Returns next id (for integer)
+     *
+     * @param $strategy
+     * @return mixed
+     */
+    public function getNextId($strategy);
+
+
+    /**
+     * Returns library with given id
+     * @param $id
+     * @return mixed
+     */
+    public function getById(LibraryInterface $id);
+
+    /**
+     * Returns library file specified by id
+     *
+     * @param $id
+     * @return mixed
+     */
+    public function getLibraryFile(FileUuid $id);
 
 }

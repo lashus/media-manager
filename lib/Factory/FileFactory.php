@@ -4,6 +4,7 @@ namespace MediaManager\Factory;
 
 use MediaManager\Model\File;
 use MediaManager\Model\Library;
+use MediaManager\Model\ValueObject\FileUuid;
 
 /**
  * File factory class
@@ -38,7 +39,7 @@ class FileFactory {
         $mimetype = $fs->mimeType($filename);
         $size = $fs->size($filename);
 
-        $file = new File($library, $name, $filename, $mimetype, $size);
+        $file = new File(FileUuid::generate(), $library, $name, $filename, $mimetype, $size);
 
         return $file;
         

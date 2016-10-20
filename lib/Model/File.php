@@ -2,8 +2,12 @@
 
 namespace MediaManager\Model;
 
-class File {
+use MediaManager\Model\ValueObject\FileIdInterface;
 
+class File implements FileInterface {
+
+    protected $id;
+    protected $created;
     protected $library;
     protected $name;
     protected $filename;
@@ -12,20 +16,38 @@ class File {
 
     /**
      * File constructor.
+     * @param FileIdInterface $id
      * @param Library $library
      * @param $name
      * @param $filename
      * @param null $mimetype
      * @param int $size
      */
-    public function __construct(Library $library, $name, $filename, $mimetype = null, $size = 0) {
+    public function __construct(FileIdInterface $id, Library $library, $name, $filename, $mimetype = null, $size = 0) {
 
+        $this->id = $id;
+        $this->created = time();
         $this->name = $name;
         $this->filename = $filename;
         $this->size = $size;
         $this->mimetype = $mimetype;
         $this->library = $library;
 
+    }
+
+    /**
+     * Returns file id
+     */
+    public function id() {
+        return $this->id;
+    }
+
+    /**
+     * Returns creation date
+     * @return int
+     */
+    public function created() {
+        return $this->created;
     }
 
     /**

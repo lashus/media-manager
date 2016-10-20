@@ -1,10 +1,20 @@
-<div class="col-xs-12 col-md-3" role="menu">
+<div class="col-xs-12" role="menu">
     <legend>{{ i18n.menu.title }}</legend>
 
     <ul class="list list-unstyled">
         {{# libraries}}
-        <li class="library-link" data-id="{{ id }}">{{ name }}</li>
+        <li class="library-link" data-id="{{ id }}">
+            <a href="#library-{{ id }}}">
+                {{ name }}
+            </a>
+        </li>
         {{/libraries}}
-        <li class="add-library">{{ i18n.add_library }}</li>
+        <li><hr /></li>
+        <li class="add-library">
+
+            <a href="#add-library">
+                {{ i18n.library.add }}
+            </a>
+        </li>
     </ul>
 </div>

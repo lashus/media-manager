@@ -1,4 +1,4 @@
-<div class="col-xs-12 col-md-9" role="application">
+<div class="col-xs-12" role="application">
     <legend>{{ i18n.library.list.title }}</legend>
 
     <ul class="libraries-grid" id="library-list" role="grid">
@@ -10,11 +10,19 @@
                     </div>
                     <h4>{{ name }}</h4>
                     <p class="additional">
-                        <small>{{ i18n.library.count }}: {{ filesCount }}</small> <br />
+                        <small>{{ i18n.library.count }}: {{ count }}</small> <br />
                         <small>{{ i18n.library.created }}: {{ date }}</small>
                     </p>
                 </div>
             </li>
         {{/libraries}}
+        <li>
+            <div class="add-library link" role="definition">
+                <div class="icon-holder">
+                    <span class="icon icon-plus"></span>
+                </div>
+                <h4>{{ i18n.library.add }}</h4>
+            </div>
+        </li>
     </ul>
 </div>

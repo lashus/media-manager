@@ -1,0 +1,72 @@
+/* line 1, ../../lib/Resources/public/sass/mediamanager.scss */
+.link {
+  cursor: pointer;
+}
+
+/* line 5, ../../lib/Resources/public/sass/mediamanager.scss */
+.libraries-grid, .files-grid {
+  margin: 0;
+  padding: 0;
+}
+/* line 9, ../../lib/Resources/public/sass/mediamanager.scss */
+.libraries-grid > li, .files-grid > li {
+  display: inline-block;
+  width: 25%;
+  border: 1px solid #cacaca;
+  padding: 10px;
+  margin-bottom: 15px;
+  text-align: center;
+  vertical-align: top;
+}
+/* line 18, ../../lib/Resources/public/sass/mediamanager.scss */
+.libraries-grid > li .icon, .files-grid > li .icon {
+  text-align: center;
+  font-size: 48px;
+  display: inline-block;
+  margin: auto;
+}
+
+/* line 27, ../../lib/Resources/public/sass/mediamanager.scss */
+.icon {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* line 36, ../../lib/Resources/public/sass/mediamanager.scss */
+.icon-plus:before {
+  content: "\f055";
+}
+
+/* line 40, ../../lib/Resources/public/sass/mediamanager.scss */
+.icon-library:before {
+  content: "\f02d";
+}
+
+/* line 44, ../../lib/Resources/public/sass/mediamanager.scss */
+.icon-image:before {
+  content: "\f1c5";
+}
+
+/* line 48, ../../lib/Resources/public/sass/mediamanager.scss */
+.icon-pdf:before {
+  content: "\f1c1";
+}
+
+/* line 52, ../../lib/Resources/public/sass/mediamanager.scss */
+.icon-audio:before {
+  content: "\f1c7";
+}
+
+/* line 56, ../../lib/Resources/public/sass/mediamanager.scss */
+.icon-video:before {
+  content: "\f1c8";
+}
+
+/* line 60, ../../lib/Resources/public/sass/mediamanager.scss */
+.icon-file:before {
+  content: "\f016";
+}

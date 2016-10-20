@@ -2,11 +2,14 @@
 
 namespace MediaManager\Service;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Gaufrette\Filesystem;
 use MediaManager\Factory\FileFactory;
 use MediaManager\Model\File;
 use MediaManager\Model\Library;
+use MediaManager\Model\LibraryInterface;
 use MediaManager\Model\LibraryRepositoryInterface;
+use MediaManager\Model\ValueObject\FileUuid;
 use MediaManager\Model\ValueObject\LibraryId;
 use MediaManager\Model\ValueObject\LibraryIdInterface;
 
@@ -32,12 +35,14 @@ class LibraryService {
      * @param FileFactory $fileFactory - File factory for creating files
      * @param LibraryRepositoryInterface $libraryRepository - Library repository for managing persistence layer
      * @param $strategy - Strategy for generting Ids for libraries
+     * @param Filesystem $filesystem
      */
-    public function __construct(FileFactory $fileFactory, LibraryRepositoryInterface $libraryRepository, $strategy = LibraryId::class)
+    public function __construct(FileFactory $fileFactory, LibraryRepositoryInterface $libraryRepository, $strategy = LibraryId::class, Filesystem $filesystem)
     {
         $this->fileFactory = $fileFactory;
         $this->libraryRepository = $libraryRepository;
         $this->strategy = $strategy;
+        $this->filesystem = $filesystem;
     }
 
     /**
@@ -102,6 +107,7 @@ class LibraryService {
     public function addFileToLibrary(File $file, Library $library) {
 
         $library->files()->add($file);
+        $this->libraryRepository->store($library);
 
         return $library;
 
@@ -124,6 +130,65 @@ class LibraryService {
 
         return $library;
 
+    }
+
+    /**
+     * Returns available libraries
+     * @return array|Library[]
+     */
+    public function getLibraries()
+    {
+        $data = $this->libraryRepository->getAll();
+
+        return $data;
+    }
+
+    /**
+     * Adds a library identified by name
+     * @param $name
+     * @param Filesystem $filesystem
+     * @return mixed
+     */
+    public function addLibrary($name, Filesystem $filesystem)
+    {
+        $library = new Library($this->libraryRepository->getNextId($this->strategy), $filesystem, $name);
+        $this->libraryRepository->store($library);
+
+        return true;
+    }
+
+    /**
+     * Returns library with given id
+     * @param LibraryIdInterface $id
+     * @return mixed
+     */
+    public function getById(LibraryIdInterface $id)
+    {
+        $library = $this->libraryRepository->get($id);
+        if($library) {
+            $library->changeFilesystem($this->filesystem);
+        }
+
+        return $library;
+    }
+
+    /**
+     * Returns all files associated to given library
+     * @param LibraryInterface $library
+     * @return ArrayCollection|File[]
+     */
+    public function getLibraryFiles(LibraryInterface $library)
+    {
+        return $this->libraryRepository->getLibraryFiles($library);
+    }
+
+    /**
+     * @param FileUuid $id
+     * @return mixed
+     */
+    public function getLibraryFile(FileUuid $id)
+    {
+        return $this->libraryRepository->getLibraryFile($id);
     }
 
 
