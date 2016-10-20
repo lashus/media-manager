@@ -15,16 +15,16 @@ use Prophecy\Argument;
 
 class LibraryServiceSpec extends ObjectBehavior
 {
-    function it_is_initializable(FileFactory $fileFactory, LibraryRepositoryInterface $libraryRepository, $strategy = LibraryId::class)
+    function it_is_initializable(FileFactory $fileFactory, LibraryRepositoryInterface $libraryRepository, $strategy = LibraryId::class, Filesystem $fs)
     {
-        $this->beConstructedWith($fileFactory, $libraryRepository, $strategy);
+        $this->beConstructedWith($fileFactory, $libraryRepository, $strategy, $fs);
         $this->shouldHaveType('MediaManager\\Service\\LibraryService');
     }
 
     function it_should_find_file_by_name(FileFactory $fileFactory, LibraryRepositoryInterface $libraryRepository, Filesystem $fs, File $file)
     {
         $strategy = LibraryId::class;
-        $this->beConstructedWith($fileFactory, $libraryRepository, $strategy);
+        $this->beConstructedWith($fileFactory, $libraryRepository, $strategy, $fs);
         $this->shouldHaveType('MediaManager\\Service\\LibraryService');
 
         $name = microtime(true);
@@ -35,7 +35,7 @@ class LibraryServiceSpec extends ObjectBehavior
     function it_should_add_file_to_library(FileFactory $fileFactory, LibraryRepositoryInterface $libraryRepository, Filesystem $fs, File $file) {
 
         $strategy = LibraryId::class;
-        $this->beConstructedWith($fileFactory, $libraryRepository, $strategy);
+        $this->beConstructedWith($fileFactory, $libraryRepository, $strategy, $fs);
         $this->shouldHaveType('MediaManager\\Service\\LibraryService');
 
         $name = microtime(true);

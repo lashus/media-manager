@@ -56,7 +56,7 @@ class LibraryUuid implements LibraryIdInterface
      */
     public function toString()
     {
-        return $this->uuid->toString();
+        return (string)$this->uuid->toString();
     }
 
     /**
@@ -64,7 +64,7 @@ class LibraryUuid implements LibraryIdInterface
      */
     public function __toString()
     {
-        return $this->toString();
+        return (string)$this->toString();
     }
 
     /**

@@ -46,8 +46,10 @@ class LibraryId implements LibraryIdInterface
     public function __construct($id)
     {
         Assert::integer($id);
-        
+
         $this->id = (int)$id;
+
+        return $this;
     }
 
     /**
@@ -55,7 +57,7 @@ class LibraryId implements LibraryIdInterface
      */
     public function toString()
     {
-        return $this->id;
+        return (string)$this->id;
     }
 
     /**
