@@ -46,6 +46,7 @@ $repo = new \MediaManager\Repository\DoctrineLibraryRepository($em, $libraryMeta
 $mm = new LibraryService($ff, $repo, LibraryId::class, $fs);
 
 $page = $_GET["p"];
+$filters = $_GET['filters'];
 $method = $_SERVER["REQUEST_METHOD"];
 $resp = 0;
 
@@ -98,7 +99,12 @@ switch($page) {
             $dt = new \DateTime();
             $dt->setTimestamp($library->created());
             $libraryFiles = array();
-            $tmp = $mm->getLibraryFiles($library);
+            
+            if(!empty($filters)) {
+                $tmp = $mm->getFilteredLibraryFiles($library, $filters);
+            } else {
+                $tmp = $mm->getLibraryFiles($library);
+            }
 
             foreach($tmp as $file) {
                 $dtf = new \DateTime();
@@ -126,7 +132,12 @@ switch($page) {
         }
     break;
     case 'libraries':
-        $libraries = $mm->getLibraries();
+
+        if(!empty($filters)) {
+            $libraries = $mm->getFilteredLibraries($filters);
+        } else {
+            $libraries = $mm->getLibraries();
+        }
 
         $resp = array();
         if($libraries) {

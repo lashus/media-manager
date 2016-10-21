@@ -27,6 +27,9 @@ function initLibrary() {
     // load menu
     loadMenu();
 
+    // load filters
+    loadFilters();
+
     // set base view
     changeLeftContent(menu);
     changeRightContent('');
@@ -48,6 +51,7 @@ function bindActions() {
         currentFileId = $(this).data('id');
         showFileView();
     });
+    $('[data-toggle="tooltip"]').tooltip();
 }
 
 function addFileView() {
@@ -216,5 +220,71 @@ function loadMenu() {
         bindActions();
 
     }, displayError);
+
+}
+
+function loadFilters() {
+
+    var view = mmd.render('filters');
+    $('#media-manager-modal .filters').html('');
+    $('#media-manager-modal .filters').append(view);
+    bindFiltersAction();
+
+}
+
+function bindFiltersAction() {
+
+    var filterFunction = function(){
+
+        var filters = [];
+        $('#media-manager-modal .filters-list .text').each(function(){
+            filters.push({
+                "type": "text",
+                "name": $(this).attr('name'),
+                "value": $(this).val()
+            });
+        });
+        $('#media-manager-modal .filters-list select').each(function(){
+            filters.push({
+                "type": "choice",
+                "name": $(this).attr('name'),
+                "value": $(this).val()
+            });
+        });
+
+        $('#media-manager-modal .filters-list .range').each(function(){
+
+            var min = $(this).find('.min').val();
+            var max = $(this).find('.max').val();
+
+            // find by name in filters
+            filters.push({
+                "type": "range",
+                "name": $(this).data('name'),
+                "min": min,
+                "max": max
+            });
+        });
+
+        mm.saveFilters(filters);
+
+        if(window.filterTimeout) {
+            clearTimeout(window.filterTimeout);
+        }
+
+        window.filterTimeout = window.setTimeout(function(){
+
+            if(currentView == 'library') {
+                showLibraryView();
+                bindActions();
+            } else if(currentView == 'libraries') {
+                librariesView();
+                bindActions();
+            }
+        }, 300);
+    };
+
+    $('#media-manager-modal .filters-list select').unbind('change').on('change', filterFunction);
+    $('#media-manager-modal .filters-list input').unbind('keyup').on('keyup', filterFunction);
 
 }

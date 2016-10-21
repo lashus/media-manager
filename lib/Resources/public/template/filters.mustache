@@ -1,24 +1,45 @@
 <div class="col-xs-12">
     <legend>{{ i18n.filters.title }}</legend>
 
-    <ul class="filters-list" role="menu">
-        {{# availableFilters}}
+    <ul class="filters-list list list-unstyled" role="menu">
+        {{# textFilters}}
+            <li>
+                <div class="form-group">
+                    <label class="control-label" data-toggle="tooltip" title="{{ help_text }}">{{ title }}</label>
+
+                    <input type="text" class="form-control text" name="{{ field }}" value="" />
+                </div>
+            </li>
+        {{/textFilters}}
+        {{# selectFilters}}
         <li>
             <div class="form-group">
-                <label class="control-label">{{ name }}</label>
+                <label class="control-label" data-toggle="tooltip" data-title="{{ help_text }}">{{ title }}</label>
 
-                {{# filtersSelect}}
-                    <select class="form-control" data-type="{{ type }}" value="{{ value }}">
-                        {{# filterOptions}}
-                            <option value="{{ value }}">{{ text }}</option>
-                        {{/filterOptions}}
+                    <select class="form-control" name="{{ field }}">
+                        <option value="">{{ i18n.filters.all }}</option>
+                        {{# choices}}
+                            <option value="{{ value }}">{{ label }}</option>
+                        {{/choices}}
                     </select>
-                {{/filtersSelect}}
-                {{# filtersText}}
-                    <input type="text" class="form-control" name="{{ type }}" value="{{ value }}" />
-                {{/filtersText}}
             </div>
         </li>
-        {{/availableFilters}}
+        {{/selectFilters}}
+        {{# rangeFilters}}
+            <li>
+                <div class="form-group range" data-name="{{ field }}" >
+                    <label class="control-label" data-toggle="tooltip" data-title="{{ help_text }}">{{ title }}</label>
+
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6">
+                            <input type="text" class="form-control min" name="{{ field }}_min" value="" />
+                        </div>
+                        <div class="col-xs-12 col-sm-6 range-prefix">
+                            <input type="text" class="form-control max" name="{{ field }}_max" value="" />
+                        </div>
+                    </div>
+                </div>
+            </li>
+        {{/rangeFilters}}
     </ul>
 </div>

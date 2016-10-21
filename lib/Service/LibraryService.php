@@ -31,6 +31,20 @@ class LibraryService {
     protected $libraryRepository;
 
     /**
+     * Allowed filters (keys) for library query
+     *
+     * @var array
+     */
+    protected $allowedLibraryFilters = array('name');
+
+    /**
+     * Allowed filters (keys) for file query
+     *
+     * @var array
+     */
+    protected $allowedFileFilters = array('name', 'size', 'mimetype');
+
+    /**
      * LibraryService constructor.
      * @param FileFactory $fileFactory - File factory for creating files
      * @param LibraryRepositoryInterface $libraryRepository - Library repository for managing persistence layer
@@ -43,6 +57,30 @@ class LibraryService {
         $this->libraryRepository = $libraryRepository;
         $this->strategy = $strategy;
         $this->filesystem = $filesystem;
+    }
+
+    /**
+     * Set new allowed filters (library)
+     *
+     * @param $keys
+     * @return $this
+     */
+    public function setAllowedLibraryFilters($keys) {
+        $this->allowedLibraryFilters = $keys;
+
+        return $this;
+    }
+
+    /**
+     * Set new allowed filters (file)
+     *
+     * @param $keys
+     * @return $this
+     */
+    public function setAllowedFileFilters($keys) {
+        $this->allowedFileFilters = $keys;
+
+        return $this;
     }
 
     /**
@@ -144,6 +182,72 @@ class LibraryService {
     }
 
     /**
+     * Returns available libraries
+     * @return array|Library[]
+     */
+    public function getFilteredLibraries($filters)
+    {
+        $parsedFilters = array();
+        foreach($filters as $key=>$filter) {
+
+            if(in_array($key, $this->allowedLibraryFilters)) {
+                $filter = str_replace('*', '%', $filter);
+
+                // check if we have range
+                if(strpos($filter, '|AND|') !== false) {
+                    list($min, $max) = explode('|AND|', $filter);
+
+                    if($key == 'size') {
+                        $min = $this->parseFilterValue($min);
+                        $max = $this->parseFilterValue($max);
+                    }
+
+                    $parsedFilters[$key] = array('type'=>'range', 'min'=>$min, 'max'=>$max);
+                } else {
+                    $parsedFilters[$key] = array('type'=>'text', 'value'=>$filter);
+                }
+
+            }
+        }
+
+        $data = $this->libraryRepository->getByParams($parsedFilters);
+
+        return $data;
+    }
+
+    /**
+     * Returns available libraries
+     * @return array|Library[]
+     */
+    public function getFilteredLibraryFiles(LibraryInterface $library, $filters)
+    {
+        $parsedFilters = array();
+        foreach($filters as $key=>$filter) {
+
+            if(in_array($key, $this->allowedFileFilters)) {
+                $filter = str_replace('*', '%', $filter);
+
+                // check if we have range
+                if(strpos($filter, '|AND|') !== false) {
+                    list($min, $max) = explode('|AND|', $filter);
+
+                    if($key == 'size') {
+                        $min = $this->parseFilterValue($min);
+                        $max = $this->parseFilterValue($max);
+                    }
+
+                    $parsedFilters[$key] = array('type'=>'range', 'min'=>$min, 'max'=>$max);
+                } else {
+                    $parsedFilters[$key] = array('type'=>'text', 'value'=>$filter);
+                }
+
+            }
+        }
+
+        return $this->libraryRepository->getLibraryFiles($library, $parsedFilters);
+    }
+
+    /**
      * Adds a library identified by name
      * @param $name
      * @param Filesystem $filesystem
@@ -189,6 +293,27 @@ class LibraryService {
     public function getLibraryFile(FileUuid $id)
     {
         return $this->libraryRepository->getLibraryFile($id);
+    }
+
+    /**
+     * Parses filter value, size (G, M, K) to bytes
+     * @param string $filter
+     * @return float
+     */
+    protected function parseFilterValue($filter)
+    {
+
+        if(strpos($filter, 'G')) {
+            $filter = (float)str_replace('G', '', $filter)*1024*1024*1024;
+        }
+        if(strpos($filter, 'M')) {
+            $filter = (float)str_replace('M', '', $filter)*1024*1024;
+        }
+        if(strpos($filter, 'K')) {
+            $filter = (float)str_replace('K', '', $filter)*1024;
+        }
+
+        return ceil($filter);
     }
 
 

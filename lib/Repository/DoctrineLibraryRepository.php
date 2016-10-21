@@ -70,11 +70,19 @@ class DoctrineLibraryRepository extends EntityRepository implements LibraryRepos
 
     /**
      * @param \MediaManager\Model\LibraryInterface $library
+     * @param array $filters
      * @return mixed
      */
-    public function getLibraryFiles(LibraryInterface $library)
+    public function getLibraryFiles(LibraryInterface $library, $filters = array())
     {
-        return $this->em->getRepository($this->fileClass)->findBy(array('library'=>$library));
+        $qb = $this->em->getRepository($this->fileClass)->createQueryBuilder('a');
+        $qb->where('a.library = :library')->setParameter('library', $library);
+
+        if(!empty($filters)) {
+            $this->processFilters($qb, 'a', $filters);
+        }
+
+        return $qb->getQuery()->getResult();
     }
 
     /**
@@ -138,5 +146,43 @@ class DoctrineLibraryRepository extends EntityRepository implements LibraryRepos
     public function getById(LibraryInterface $id)
     {
         return $this->em->getRepository($this->libraryClass)->find($id);
+    }
+
+    /**
+     * Returns library by specified params. Params should have fields: "type", "value" or for range "type", "min", "max"
+     * @param $filters
+     * @return mixed
+     */
+    public function getByParams($filters) {
+
+        $qb = $this->em->getRepository($this->libraryClass)->createQueryBuilder('a');
+        $this->processFilters($qb, 'a', $filters);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    protected function processFilters($qb, $prefix, $filters)
+    {
+        foreach($filters as $key=>$filter) {
+            switch($filter['type']) {
+                case 'range':
+                    $min = max(0, (int)$filter['min']);
+                    $max = max(0, (int)$filter['max']);
+
+                    $qb->andWhere(
+                        sprintf('%s.%s BETWEEN :%sMin AND :%sMax', $prefix, $key, $key, $key)
+                    )
+                        ->setParameter($key.'Min', $min)
+                        ->setParameter($key.'Max', $max);
+                    break;
+                default:
+                    $qb->andWhere(
+                        sprintf('%s.%s LIKE :%sValue', $prefix, $key, $key)
+                    )->setParameter($key.'Value', $filter['value']);
+
+            }
+        }
+
+        return $qb;
     }
 }

@@ -39,9 +39,10 @@ interface LibraryRepositoryInterface {
      * Get all files belonging to library
      *
      * @param LibraryInterface $library
+     * @param array $filters
      * @return mixed
      */
-    public function getLibraryFiles(LibraryInterface $library);
+    public function getLibraryFiles(LibraryInterface $library, $filters = array());
 
     /**
      * Get a library by given name
@@ -74,5 +75,12 @@ interface LibraryRepositoryInterface {
      * @return mixed
      */
     public function getLibraryFile(FileUuid $id);
+
+    /**
+     * Returns library by specified params. Params should have fields: "type", "value" or for range "type", "min", "max"
+     * @param $filters
+     * @return mixed
+     */
+    public function getByParams($filters);
 
 }

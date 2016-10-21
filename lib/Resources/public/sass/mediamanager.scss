@@ -24,6 +24,30 @@
   }
 }
 
+.filters-list {
+  > li {
+    width: calc(33.33333333% - 10px);
+    float: left;
+    margin-right: 10px;
+
+    &:nth-child(3) {
+      margin-right: 0;
+      width: 33.33333333%;
+    }
+
+    .range-prefix:before {
+      content: '-';
+      left: -4px;
+      position: absolute;
+      top: 6px;
+    }
+
+    @media screen and (max-width: 970px) {
+      width: 100%;
+    }
+  }
+}
+
 .icon {
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome;
